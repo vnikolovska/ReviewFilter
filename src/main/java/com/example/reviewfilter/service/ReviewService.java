@@ -1,5 +1,6 @@
-package com.example.reviewfilter;
+package com.example.reviewfilter.service;
 
+import com.example.reviewfilter.model.Review;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;

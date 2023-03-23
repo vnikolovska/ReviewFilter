@@ -1,5 +1,7 @@
-package com.example.reviewfilter;
+package com.example.reviewfilter.web;
 
+import com.example.reviewfilter.model.Review;
+import com.example.reviewfilter.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,8 +25,8 @@ public class ReviewController {
     }
 
     @PostMapping("/filter")
-    public String filter(@RequestParam String text, @RequestParam String rating, @RequestParam int minRating,@RequestParam String date, Model model) {
-        List<Review> reviews = reviewService.filterReviews(text, rating, minRating,date);
+    public String filter(@RequestParam String text, @RequestParam String rating, @RequestParam int minRating, @RequestParam String date, Model model) {
+        List<Review> reviews = reviewService.filterReviews(text, rating, minRating, date);
         model.addAttribute("filteredReviews", reviews);
 
         return "reviewFilter";

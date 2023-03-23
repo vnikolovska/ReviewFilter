@@ -1,4 +1,4 @@
-package com.example.reviewfilter;
+package com.example.reviewfilter.model;
 
 import java.util.List;
 
@@ -27,7 +27,6 @@ public class Review {
     private String href;
     private String logoHref;
     private List<String> photos;
-
 
 
     public Long getId() {
