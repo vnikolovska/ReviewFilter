@@ -31,48 +31,80 @@ public class ReviewService {
         return reviews;
     }
 
-    public List<Review> filterReviews(String text, String rating, int minRating) {
+    public List<Review> filterReviews(String text, String rating, int minRating, String date) {
         List<Review> reviews = getAllReviews();
         List<Review> filteredReviews;
+        filteredReviews = reviews.stream().filter(r -> r.getRating() >= minRating).collect(Collectors.toList());
+        Comparator<Review> ratingComparator = Comparator.comparing(Review::getRating);
+        Comparator<Review> dateComparator = Comparator.comparing(Review::getReviewCreatedOnDate);
+
 
         if (text.equals("Yes")) {
+
             if (rating.equals("Highest First")) {
+                if (date.equals("Newest First")) {
 
-                filteredReviews = reviews.stream().filter(r -> r.getRating() >= minRating)
-                        .sorted(Comparator.comparing(Review::getRating).reversed())
-                        .collect(Collectors.toList());
-                filteredReviews.sort(Comparator.comparing((Review r) -> !r.getReviewText().isEmpty())
-                        .reversed());
+                    filteredReviews.sort(ratingComparator.reversed().thenComparing(dateComparator.reversed()));
 
-            } else {
+                    filteredReviews.sort(Comparator.comparing((Review r) -> !r.getReviewText().isEmpty())
+                            .reversed());
 
-                filteredReviews = reviews.stream().filter(r -> r.getRating() >= minRating)
-                        .sorted(Comparator.comparing(Review::getRating))
-                        .collect(Collectors.toList());
-                filteredReviews.sort(Comparator.comparing((Review r) -> !r.getReviewText().isEmpty())
-                        .reversed());
+                } else if (date.equals("Oldest First")) {
+                    filteredReviews.sort(ratingComparator.reversed().thenComparing(dateComparator));
+
+                    filteredReviews.sort(Comparator.comparing((Review r) -> !r.getReviewText().isEmpty())
+                            .reversed());
+
+                }
+            } else if (rating.equals("Lowest First")) {
+
+                if (date.equals("Newest First")) {
+                    filteredReviews.sort(ratingComparator.thenComparing(dateComparator.reversed()));
+                    filteredReviews.sort(Comparator.comparing((Review r) -> !r.getReviewText().isEmpty())
+                            .reversed());
+
+
+                } else if (date.equals("Oldest First")) {
+                    filteredReviews.sort(ratingComparator.thenComparing(dateComparator));
+                    filteredReviews.sort(Comparator.comparing((Review r) -> !r.getReviewText().isEmpty())
+                            .reversed());
+
+
+                }
+
+            }
+        } else if (text.equals("No")) {
+            if (rating.equals("Highest First")) {
+                if (date.equals("Newest First")) {
+
+                    filteredReviews.sort(ratingComparator.reversed().thenComparing(dateComparator.reversed()));
+
+
+                } else if (date.equals("Oldest First")) {
+                    filteredReviews.sort(ratingComparator.reversed().thenComparing(dateComparator));
+
+
+                }
+            } else if (rating.equals("Lowest First")) {
+
+                if (date.equals("Newest First")) {
+                    filteredReviews.sort(ratingComparator.thenComparing(dateComparator.reversed()));
+
+
+                } else if (date.equals("Oldest First")) {
+                    filteredReviews.sort(ratingComparator.thenComparing(dateComparator));
+
+
+                }
+
             }
 
-        } else {
-            if (rating.equals("Highest First")) {
-
-                filteredReviews = reviews.stream().filter(r -> r.getRating() >= minRating)
-                        .sorted(Comparator.comparing(Review::getRating).reversed())
-                        .collect(Collectors.toList());
-
-
-            } else {
-
-                filteredReviews = reviews.stream().filter(r -> r.getRating() >= minRating)
-                        .sorted(Comparator.comparing(Review::getRating))
-                        .collect(Collectors.toList());
-
-            }
 
         }
-
         return filteredReviews;
 
     }
+
+
 }
 
