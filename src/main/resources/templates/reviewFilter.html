@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reviews</title>
+    <link crossorigin="anonymous"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div>
+        <h5 class="mt-5">Filter reviews</h5>
+    </div>
+
+
+    <form th:action="@{'/filter'}" method="POST">
+
+
+        <div class="form-group">
+            <label>Order by rating:</label>
+            <select name="rating" class="form-control">
+                <option selected>Highest First</option>
+                <option value="Lowest First">Lowest First</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Minimum rating:</label>
+            <select name="minRating" class="form-control">
+                <option selected>1</option>
+                <option value="5">5</option>
+                <option value="4">4</option>
+                <option value="3">3</option>
+                <option value="2">2</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Order by date:</label>
+            <select name="date" class="form-control">
+                <option selected>Oldest First</option>
+                <option value="Newest First">Newest First</option>
+
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Prioritize by text:</label>
+
+            <select name="text" class="form-control">
+                <option selected>Yes</option>
+                <option value="No">No</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Filter</button>
+
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>ReviewText</th>
+                <th>Rating</th>
+                <th>Date</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="review:${filteredReviews}">
+                <td th:text="${review.id}"></td>
+                <td th:text="${review.reviewText}"></td>
+                <td th:text="${review.rating}"></td>
+                <td th:text="${review.reviewCreatedOnDate}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+
+    </form>
+</div>
+
+
+</body>
+</html>
