@@ -24,7 +24,7 @@ public class ReviewController {
         return "reviewFilter";
     }
 
-    @PostMapping("/filter")
+    @PostMapping("/reviews")
     public String filter(@RequestParam String text, @RequestParam String rating, @RequestParam int minRating, @RequestParam String date, Model model) {
         List<Review> reviews = reviewService.filterReviews(text, rating, minRating, date);
         model.addAttribute("filteredReviews", reviews);

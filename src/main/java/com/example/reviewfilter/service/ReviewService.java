@@ -32,78 +32,29 @@ public class ReviewService {
         return reviews;
     }
 
+
     public List<Review> filterReviews(String text, String rating, int minRating, String date) {
         List<Review> reviews = getAllReviews();
-        List<Review> filteredReviews;
-        filteredReviews = reviews.stream().filter(r -> r.getRating() >= minRating).collect(Collectors.toList());
+        List<Review> filteredReviews = reviews.stream().filter(r -> r.getRating() >= minRating).collect(Collectors.toList());
+
         Comparator<Review> ratingComparator = Comparator.comparing(Review::getRating);
         Comparator<Review> dateComparator = Comparator.comparing(Review::getReviewCreatedOnDate);
 
 
-        if (text.equals("Yes")) {
-
-            if (rating.equals("Highest First")) {
-                if (date.equals("Newest First")) {
-
-                    filteredReviews.sort(ratingComparator.reversed().thenComparing(dateComparator.reversed()));
-
-                    filteredReviews.sort(Comparator.comparing((Review r) -> !r.getReviewText().isEmpty())
-                            .reversed());
-
-                } else if (date.equals("Oldest First")) {
-                    filteredReviews.sort(ratingComparator.reversed().thenComparing(dateComparator));
-
-                    filteredReviews.sort(Comparator.comparing((Review r) -> !r.getReviewText().isEmpty())
-                            .reversed());
-
-                }
-            } else if (rating.equals("Lowest First")) {
-
-                if (date.equals("Newest First")) {
-                    filteredReviews.sort(ratingComparator.thenComparing(dateComparator.reversed()));
-                    filteredReviews.sort(Comparator.comparing((Review r) -> !r.getReviewText().isEmpty())
-                            .reversed());
-
-
-                } else if (date.equals("Oldest First")) {
-                    filteredReviews.sort(ratingComparator.thenComparing(dateComparator));
-                    filteredReviews.sort(Comparator.comparing((Review r) -> !r.getReviewText().isEmpty())
-                            .reversed());
-
-
-                }
-
-            }
-        } else if (text.equals("No")) {
-            if (rating.equals("Highest First")) {
-                if (date.equals("Newest First")) {
-
-                    filteredReviews.sort(ratingComparator.reversed().thenComparing(dateComparator.reversed()));
-
-
-                } else if (date.equals("Oldest First")) {
-                    filteredReviews.sort(ratingComparator.reversed().thenComparing(dateComparator));
-
-
-                }
-            } else if (rating.equals("Lowest First")) {
-
-                if (date.equals("Newest First")) {
-                    filteredReviews.sort(ratingComparator.thenComparing(dateComparator.reversed()));
-
-
-                } else if (date.equals("Oldest First")) {
-                    filteredReviews.sort(ratingComparator.thenComparing(dateComparator));
-
-
-                }
-
-            }
-
-
+        if (date.equals("Oldest First")) {
+            dateComparator = dateComparator.reversed();
         }
-        return filteredReviews;
+        if (rating.equals("Highest First")) {
+            ratingComparator = ratingComparator.reversed();
+        }
+        filteredReviews.sort(ratingComparator.thenComparing(dateComparator));
 
+        if (text.equals("Yes")) {
+            filteredReviews.sort(Comparator.comparing((Review r) -> !r.getReviewText().isEmpty()).reversed());
+        }
+
+
+        return filteredReviews;
     }
 
 
